@@ -71,6 +71,13 @@ IMPORTANTE: No uses Copy-Item directamente. En su lugar, leé cada archivo del t
 
 Para cada archivo en `vault-template/`, leelo con `Read`, hacé los reemplazos, y escribilo con `Write` en la ubicación correspondiente dentro de `$VaultPath`.
 
+Archivos del template de rufino a copiar (con reemplazo de placeholders):
+- `vault-template/rufino/_index.md` -> `$VaultPath/rufino/_index.md`
+- `vault-template/rufino/_tags.md` -> `$VaultPath/rufino/_tags.md`
+- `vault-template/rufino/_processing-log.md` -> `$VaultPath/rufino/_processing-log.md`
+
+La carpeta `rufino/` usa estructura de dos niveles: `rufino/<proyecto>/<tipo>/`. Las subcarpetas se crean automáticamente cuando Rufino procesa notas — no hace falta crearlas manualmente.
+
 Para los directorios vacíos (los que tienen `.gitkeep`), simplemente crealos:
 
 ```powershell
@@ -214,6 +221,7 @@ $filesToCheck = @(
     (Join-Path $VaultPath "_meta\design.md"),
     (Join-Path $VaultPath "_meta\projectPaths.md"),
     (Join-Path $VaultPath "rufino\_index.md"),
+    (Join-Path $VaultPath "rufino\_tags.md"),
     (Join-Path $VaultPath "rufino\_processing-log.md"),
     (Join-Path $env:USERPROFILE ".claude\rules\common\obsidian-memory.md"),
     (Join-Path $env:USERPROFILE ".claude\rules\common\rufino.md"),

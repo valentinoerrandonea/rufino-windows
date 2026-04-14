@@ -1,14 +1,26 @@
-# Rufino — Índice de notas procesadas
+---
+tags:
+  - proyecto/rufino
+  - tipo/meta
+created: {{DATE}}
+updated: {{DATE}}
+---
 
-Este archivo es el mapa completo de todas las notas procesadas por Rufino. Se actualiza automáticamente cada vez que se procesan notas.
+# Rufino — Indice de notas
+
+> Este archivo es mantenido automáticamente por Rufino. No editar manualmente.
+
+## Proyectos
+
+_Aún no hay proyectos. Se crean automáticamente al procesar notas._
 
 ## Notas procesadas
 
-| Archivo | Categoría | Tags | Resumen | Fecha |
-|---------|-----------|------|---------|-------|
+| Nota | Proyecto | Tipo | Tags | Resumen | Fecha |
+|------|----------|------|------|---------|-------|
 
-<!-- Rufino agrega entradas aquí automáticamente -->
+## Stats
 
-## Creado
-
-{{DATE}}
+- Total notas: 0
+- Proyectos: 0
+- Ultima ejecucion: nunca
