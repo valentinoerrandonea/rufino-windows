@@ -56,9 +56,11 @@ Before ending a session, Claude Code checks if there's anything worth saving tha
 ### Rufino Daily Processor
 Every day at 19:00, a scheduled task runs Claude Code to process raw notes in the `rufino/` folder. It analyzes each note, assigns a **project** (e.g. `percha`, `oiko`, `general`) and a **type** (e.g. `tech`, `ideas`, `reflexiones`), then moves it to `rufino/<project>/<type>/`. Each note is enriched with a structured summary, deep analysis, cross-references, and connections to related notes.
 
-After processing, Rufino updates two index files:
+After processing, Rufino updates four index files:
 - `_index.md` — full list of processed notes organized by project
 - `_tags.md` — tag index grouping notes by `tema/` tag and by project
+- `_pendientes.md` — action items and TODOs extracted automatically from processed notes; mark items `[x]` when done
+- `_people.md` — directory of people mentioned in your notes, with their relationship and associated projects
 
 ## Optional: Obsidian
 

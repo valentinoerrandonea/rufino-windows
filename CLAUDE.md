@@ -12,8 +12,10 @@ Rufino es un sistema de memoria persistente basado en un vault de Obsidian. Incl
 2. **Reglas de Claude Code** — Instrucciones que le dicen a Claude Code que lea y escriba en el vault automáticamente durante cada conversación.
 3. **Comando /remember** — Para guardar información manualmente en el vault.
 4. **Hook de Stop** — Antes de cerrar una sesión, Claude Code revisa si hay algo pendiente para guardar.
-5. **Rufino Daily** — Procesador automático de notas crudas que corre todos los días a las 19:00.
+5. **Rufino Daily** — Procesador automático de notas crudas que corre todos los días a las 19:00. Extrae action items (`_pendientes.md`), registra personas mencionadas (`_people.md`), y genera un índice de tags.
 6. **Prompt de procesamiento** — Instrucciones para que Claude analice, categorice y enriquezca notas.
+7. **Directorio de personas** — `_people.md` registra automáticamente las personas mencionadas en las notas con su relación y proyectos.
+8. **Pendientes** — `_pendientes.md` extrae automáticamente action items y TODOs de las notas procesadas.
 
 ---
 
@@ -75,6 +77,8 @@ Archivos del template de rufino a copiar (con reemplazo de placeholders):
 - `vault-template/rufino/_index.md` -> `$VaultPath/rufino/_index.md`
 - `vault-template/rufino/_tags.md` -> `$VaultPath/rufino/_tags.md`
 - `vault-template/rufino/_processing-log.md` -> `$VaultPath/rufino/_processing-log.md`
+- `vault-template/rufino/_people.md` -> `$VaultPath/rufino/_people.md`
+- `vault-template/rufino/_pendientes.md` -> `$VaultPath/rufino/_pendientes.md`
 
 La carpeta `rufino/` usa estructura de dos niveles: `rufino/<proyecto>/<tipo>/`. Las subcarpetas se crean automáticamente cuando Rufino procesa notas — no hace falta crearlas manualmente.
 
@@ -223,6 +227,8 @@ $filesToCheck = @(
     (Join-Path $VaultPath "rufino\_index.md"),
     (Join-Path $VaultPath "rufino\_tags.md"),
     (Join-Path $VaultPath "rufino\_processing-log.md"),
+    (Join-Path $VaultPath "rufino\_people.md"),
+    (Join-Path $VaultPath "rufino\_pendientes.md"),
     (Join-Path $env:USERPROFILE ".claude\rules\common\obsidian-memory.md"),
     (Join-Path $env:USERPROFILE ".claude\rules\common\rufino.md"),
     (Join-Path $env:USERPROFILE ".claude\prompts\rufino-daily.md"),

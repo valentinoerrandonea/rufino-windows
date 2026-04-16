@@ -203,7 +203,27 @@ updated: YYYY-MM-DD
 (repeat for every project)
 ```
 
-### 6. Write the processing log
+### 6. Extract pendientes (action items)
+
+After processing each note, scan its content (both original and augmentation) for action items, TODOs, things the user said they need to do, or suggestions from the Analisis section. Add them to `{{VAULT_PATH}}/rufino/_pendientes.md`.
+
+Read the current `_pendientes.md` first. For each new pendiente:
+- Add a row to the **Activos** table: `| [ ] | <description> | [[source-note]] | YYYY-MM-DD |`
+- Do NOT touch rows that already exist (the user may have marked them as done)
+- Do NOT add duplicate pendientes — check if a similar one already exists
+- If a row has been changed from `[ ]` to `[x]` by the user, move it to the **Completados** table
+
+Keep descriptions short and actionable (one line).
+
+### 7. Detect and register people
+
+After processing each note, scan for mentions of people (names, roles like "mi jefe", "el cliente", etc.). Read `{{VAULT_PATH}}/rufino/_people.md` and:
+
+- If the person is already in the table, update their Notas column to add the new note as a wikilink
+- If the person is NOT in the table, add a new row with whatever info can be inferred from context: `| <name> | <inferred relation> | <project if known> | [[source-note]] |`
+- For unknown people where you can only detect a first name, still add them — the user can fill in details later
+
+### 8. Write the processing log
 
 Append to `{{VAULT_PATH}}/rufino/_processing-log.md`:
 
@@ -231,6 +251,9 @@ Append to `{{VAULT_PATH}}/rufino/_processing-log.md`:
 - NEVER create notes. Only process what already exists.
 - NEVER touch files outside `{{VAULT_PATH}}/rufino/`.
 - NEVER link to notes that don't exist. Always verify with Glob before adding a wikilink.
+- NEVER delete any file or directory in the vault. Only create, move, and edit.
+- NEVER use `rm`, `rm -rf`, or any destructive command on vault files.
+- Before moving a note, verify the source file exists. After moving, verify the destination file exists.
 - Language: Spanish for all content. Technical terms in English untranslated.
 - If a note is very short (under 20 words), still process it but keep the augmentation proportional.
 - If a note is already formatted with frontmatter and has `status: processed`, skip it.

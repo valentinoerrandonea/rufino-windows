@@ -19,6 +19,14 @@ Si el usuario menciona "rufino", "mis notas", o pregunta sobre algo que no es un
 - Cruzar conexiones entre notas
 - Ejecutar el procesamiento manualmente si el usuario lo pide (usá el prompt de `~/.claude/prompts/rufino-daily.md`)
 - Expandir o actualizar la augmentation de una nota específica
+- Ver pendientes: leé `{{VAULT_PATH}}/rufino/_pendientes.md`
+- Buscar personas: leé `{{VAULT_PATH}}/rufino/_people.md`
+
+## Personas
+
+Cuando el usuario mencione a una persona que no aparece en `_people.md`, preguntale quién es: nombre, relación (compañero de trabajo, amigo, cliente, etc.), y en qué proyectos está involucrado. Después actualizá `_people.md` con la info.
+
+No preguntes si la persona ya está registrada en `_people.md`.
 
 ## Path
 
