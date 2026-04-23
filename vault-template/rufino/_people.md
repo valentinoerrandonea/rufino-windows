@@ -6,11 +6,15 @@ created: {{DATE}}
 updated: {{DATE}}
 ---
 
-# Rufino — Personas
+# Rufino — Personas (índice)
 
-> Este archivo es mantenido por Rufino. Podés editarlo para corregir o agregar info.
+> Índice de personas. Cada persona tiene su propio archivo en `_people/<nombre>.md` con contexto rico y historial de menciones.
 
-## Directorio de personas
+## Directorio
 
-| Nombre | Relación | Proyectos | Notas |
-|--------|----------|-----------|-------|
+| Nombre | Relación | Proyectos | Menciones | Archivo |
+|--------|----------|-----------|-----------|---------|
+
+## Stats
+
+- Total personas: 0

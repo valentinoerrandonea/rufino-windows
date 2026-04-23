@@ -82,6 +82,15 @@ Archivos del template de rufino a copiar (con reemplazo de placeholders):
 
 La carpeta `rufino/` usa estructura de dos niveles: `rufino/<proyecto>/<tipo>/`. Las subcarpetas se crean automáticamente cuando Rufino procesa notas — no hace falta crearlas manualmente.
 
+Además, creá el directorio de personas vacío:
+
+```powershell
+$peoplePath = Join-Path $VaultPath "rufino\_people"
+if (-not (Test-Path $peoplePath)) {
+    New-Item -ItemType Directory -Path $peoplePath -Force | Out-Null
+}
+```
+
 Para los directorios vacíos (los que tienen `.gitkeep`), simplemente crealos:
 
 ```powershell

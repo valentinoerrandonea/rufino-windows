@@ -8,14 +8,22 @@ updated: {{DATE}}
 
 # Rufino — Pendientes
 
-> Rufino extrae action items de tus notas automáticamente. Marcá con `[x]` lo que ya hiciste.
+> Rufino extrae action items automáticamente. Marcá `[x]` los completados y `[/]` los en progreso.
+>
+> También podés escribir pendientes inline en cualquier nota con la sintaxis:
+> `- [ ] descripción #proyecto/arista @persona !YYYY-MM-DD`
 
-## Activos
+## Por hacer
 
-| Estado | Pendiente | Origen | Fecha |
-|--------|-----------|--------|-------|
+| Estado | Pendiente | Proyecto/Arista | Personas | Deadline | Origen | Creado |
+|--------|-----------|-----------------|----------|----------|--------|--------|
+
+## En progreso
+
+| Estado | Pendiente | Proyecto/Arista | Personas | Deadline | Origen | Creado |
+|--------|-----------|-----------------|----------|----------|--------|--------|
 
 ## Completados
 
-| Pendiente | Origen | Completado |
-|-----------|--------|------------|
+| Pendiente | Proyecto/Arista | Personas | Origen | Completado |
+|-----------|-----------------|----------|--------|------------|
