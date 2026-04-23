@@ -9,6 +9,7 @@ It also includes an automated note processor that enriches raw notes with summar
 - **Windows 10 or Windows 11**
 - **VS Code** with the **Claude Code extension** installed and authenticated
 - **Git** (to clone this repo)
+- **Node.js 20+** — only if you install the dashboard. Check with `node -v`; install from [nodejs.org](https://nodejs.org) or `winget install OpenJS.NodeJS.LTS`
 
 ## Installation
 
@@ -41,6 +42,7 @@ Claude Code reads `CLAUDE.md` and does everything automatically:
 | Stop hook | `%USERPROFILE%\.claude\hooks\` |
 | Scheduled task script | `%USERPROFILE%\.claude\scripts\` |
 | Windows Scheduled Task | "Rufino Daily" (runs at 19:00) |
+| Dashboard (optional) | `dashboard/` in this repo + Scheduled Task "RufinoDashboard" (runs at login) |
 
 ## How It Works
 
@@ -61,6 +63,69 @@ After processing, Rufino updates four index files:
 - `_tags.md` — 4-axis tag index: `proyecto/<name>/<arista>`, `tema/`, `persona/`, `concepto/`
 - `_pendientes.md` — action items extracted automatically with proyecto/arista, personas, deadline, and origin; supports inline syntax `#proyecto/arista @persona !deadline`
 - `_people.md` — index of people mentioned in notes; each person gets their own file in `_people/<name>.md` with full mention history
+
+## Dashboard
+
+The dashboard is a Next.js 16 web app that serves http://localhost:3737. It runs as a user-level Windows Scheduled Task that launches at login and auto-restarts on failure.
+
+### Features
+- Capture views for notes, todos, and people
+- Note list with inbox (unprocessed) + filters (search, project, tema, persona, concepto), grouped by project
+- Note detail with a **structured field-by-field editor** — edit raw body, Resumen, Análisis, Implicaciones, Preguntas abiertas, Próximos pasos as separate fields. Title/tags/Context/Connections stay read-only and are preserved byte-for-byte on save.
+- Todos with 3-state checkbox (`[ ]` → `[/]` → `[x]`), filters, and atomic updates to `_pendientes.md`
+- People directory and project memory views
+- Theme toggle (light/dark) + accent color picker
+
+### Install via Claude Code
+
+In VS Code with the Claude Code extension, say `instala esto` inside the repo folder. When the installer asks about the dashboard, answer yes.
+
+### Install manually
+
+```powershell
+cd dashboard
+npm install
+npm run build
+cd ..
+
+powershell.exe -ExecutionPolicy Bypass -File .\configs\scripts\install-dashboard.ps1 `
+    -DashboardDir "$((Get-Location).Path)\dashboard" `
+    -VaultPath "<YOUR_VAULT_PATH>"
+```
+
+The install script:
+1. Verifies Node 20+
+2. Runs `npm install` and `npm run build` in `dashboard/`
+3. Registers a Scheduled Task `RufinoDashboard` that runs at user logon and restarts on failure
+4. Sets `RUFINO_VAULT_PATH` and `RUFINO_DASHBOARD_PORT` as user-scope env vars so the task inherits them
+5. Starts the task and polls http://localhost:3737 to confirm
+
+### Updating the dashboard
+
+After editing anything under `dashboard/`:
+
+```powershell
+cd dashboard
+npm run build
+Stop-ScheduledTask -TaskName RufinoDashboard
+Start-ScheduledTask -TaskName RufinoDashboard
+```
+
+The daemon serves the production build (`next start`), so changes need a rebuild + task restart.
+
+### Logs
+
+```powershell
+Get-Content "$env:USERPROFILE\rufino-dashboard.log" -Tail 30 -Wait
+```
+
+### Uninstall dashboard only
+
+```powershell
+Unregister-ScheduledTask -TaskName RufinoDashboard -Confirm:$false
+[Environment]::SetEnvironmentVariable("RUFINO_VAULT_PATH", $null, "User")
+[Environment]::SetEnvironmentVariable("RUFINO_DASHBOARD_PORT", $null, "User")
+```
 
 ## Optional: Obsidian
 

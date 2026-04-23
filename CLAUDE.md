@@ -222,7 +222,43 @@ Si el comando falla (por ejemplo, por permisos), informale al usuario que puede 
 - Trigger: diario a las 19:00
 - Acción: iniciar programa `powershell.exe` con argumentos `-ExecutionPolicy Bypass -File "$env:USERPROFILE\.claude\scripts\rufino-scheduled.ps1"`
 
-### Paso 10: Verificar la instalación
+### Paso 10: Instalar el dashboard (opcional pero recomendado)
+
+Preguntá al usuario: **"¿Querés instalar el dashboard web también? (corre en localhost:3737 como tarea programada al login, siempre activo)"**
+
+Si responde que no, saltate al Paso 11.
+
+Si responde que sí:
+
+**Prerrequisito**: Node.js 20+. Verificalo:
+
+```powershell
+$node = Get-Command node -ErrorAction SilentlyContinue
+if (-not $node) {
+    Write-Host "Node.js no encontrado. Instalá Node 20+ desde https://nodejs.org y reintentá."
+    exit 1
+}
+$nodeMajor = [int](((& node -v) -replace '^v').Split('.')[0])
+if ($nodeMajor -lt 20) {
+    Write-Host "Se requiere Node.js 20+. Versión actual: $(& node -v)"
+    exit 1
+}
+```
+
+Ejecutá el script de instalación del dashboard desde la raíz del repo:
+
+```powershell
+$repoDir = (Get-Location).Path
+& powershell.exe -ExecutionPolicy Bypass -File "$repoDir\configs\scripts\install-dashboard.ps1" -DashboardDir "$repoDir\dashboard" -VaultPath $VaultPath
+```
+
+El script hace `npm install`, `npm run build`, registra una Scheduled Task `RufinoDashboard` que arranca al login y verifica que responda en http://localhost:3737. Si falla, mostrá los logs:
+
+```powershell
+Get-Content "$env:USERPROFILE\rufino-dashboard.log" -Tail 30
+```
+
+### Paso 11: Verificar la instalación
 
 Verificá que todos los archivos existen:
 
@@ -260,7 +296,7 @@ if ($allGood) {
 }
 ```
 
-### Paso 11: Mensaje final
+### Paso 12: Mensaje final
 
 Mostrá este mensaje al usuario:
 
@@ -276,6 +312,7 @@ Mostrá este mensaje al usuario:
 - Hook de Stop en: `$env:USERPROFILE\.claude\hooks\`
 - Script de tarea programada en: `$env:USERPROFILE\.claude\scripts\`
 - Tarea programada "Rufino Daily" (19:00 todos los días)
+- Si instalaste el dashboard: tarea `RufinoDashboard` que corre al login y sirve http://localhost:3737
 
 **Como usarlo:**
 - Claude Code va a leer y escribir en tu vault automáticamente
